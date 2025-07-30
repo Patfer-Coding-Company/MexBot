@@ -234,6 +234,137 @@ code {
   transform: translateY(-1px);
 }
 
+/* Google Sign-In Styles */
+.google-signin-container {
+  padding: 1.5rem;
+  text-align: center;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  margin: 0.75rem;
+  border: 1px solid var(--border-primary);
+}
+
+.signin-header h3 {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.signin-header p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.google-signin-button {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.error-message {
+  background: var(--error);
+  color: white;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border-primary);
+  border-top: 2px solid var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* User Profile Styles */
+.user-profile {
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  margin: 0.75rem;
+  border: 1px solid var(--border-primary);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border-primary);
+}
+
+.user-details {
+  flex: 1;
+}
+
+.user-name {
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.user-email {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+
+.trial-status {
+  color: var(--warning);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.subscription-status {
+  color: var(--success);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.sign-out-button {
+  width: 100%;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-primary);
+  padding: 0.75rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sign-out-button:hover {
+  background: var(--border-primary);
+  color: var(--text-primary);
+}
+
+.sign-out-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* Add these styles to your existing CSS */
 .scrollbar-gutter-stable {
   scrollbar-gutter: stable;
