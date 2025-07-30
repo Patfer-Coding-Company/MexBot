@@ -1,47 +1,21 @@
-<h1 align="center">
-    <img src="https://github.com/user-attachments/assets/ec60b0c4-87ba-48f4-981a-c55ed0e8497b" height="100" width="375" alt="banner" /><br>
-</h1>
-
-
-<div align="center">
-
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/nanobrowser)
-[![Twitter](https://img.shields.io/badge/Twitter-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/nanobrowser_ai)
-[![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/NN3ABHggMK)
-[<img src="https://deepwiki.com/badge.svg" height="28" alt="Ask DeepWiki">](https://deepwiki.com/nanobrowser/nanobrowser)
-
-</div>
-
-## 🌐 MexBot
+# MexBot
 
 MexBot is an open-source AI web automation tool that runs in your browser. A free alternative to OpenAI Operator with flexible LLM options and multi-agent system.
 
 **Made by Patfer Coding Company, Patrick Blanks (c) 2025 Patrick Blanks**
 
-⬇️ Get [MexBot from Chrome Web Store](https://chromewebstore.google.com/detail/mexbot/imbddededgmcgfhfpcjmijokokekbkal) for free
+## Why MexBot?
 
-👏 Join the community in [Discord](https://discord.gg/NN3ABHggMK) | [X](https://x.com/nanobrowser_ai)
-
-❤️ Loving Nanobrowser? Give us a star 🌟 and help spread the word!
-
-<div align="center">
-<img src="https://github.com/user-attachments/assets/112c4385-7b03-4b81-a352-4f348093351b" width="600" alt="Nanobrowser Demo GIF" />
-<p><em>Nanobrowser's multi-agent system analyzing HuggingFace in real-time, with the Planner intelligently self-correcting when encountering obstacles and dynamically instructing the Navigator to adjust its approach—all running locally in your browser.</em></p>
-</div>
-
-## 🔥Why MexBot?
-
-Looking for a powerful AI web agent without the $200/month price tag of OpenAI Operator? **MexBot** , as a chrome extension, delivers premium web automation capabilities while keeping you in complete control:
+Looking for a powerful AI web agent without the $200/month price tag of OpenAI Operator? **MexBot**, as a chrome extension, delivers premium web automation capabilities while keeping you in complete control:
 
 - **100% Free** - No subscription fees or hidden costs. Just install and use your own API keys, and you only pay what you use with your own API keys.
 - **Privacy-Focused** - Everything runs in your local browser. Your credentials stay with you, never shared with any cloud service.
 - **Flexible LLM Options** - Connect to your preferred LLM providers with the freedom to choose different models for different agents.
 - **Fully Open Source** - Complete transparency in how your browser is automated. No black boxes or hidden processes.
 
-> **Note:** We currently support OpenAI, Anthropic, Gemini, Ollama, Groq, Cerebras, Llama and custom OpenAI-Compatible providers, more providers will be supported.
+**Note:** We currently support OpenAI, Anthropic, Gemini, Ollama, Groq, Cerebras, Llama and custom OpenAI-Compatible providers, more providers will be supported.
 
-
-## 📊 Key Features
+## Key Features
 
 - **Multi-agent System**: Specialized AI agents collaborate to accomplish complex web workflows
 - **Interactive Side Panel**: Intuitive chat interface with real-time status updates
@@ -50,8 +24,7 @@ Looking for a powerful AI web agent without the $200/month price tag of OpenAI O
 - **Conversation History**: Easily access and manage your AI agent interaction history
 - **Multiple LLM Support**: Connect your preferred LLM providers and assign different models to different agents
 
-
-## 🌐 Browser Support
+## Browser Support
 
 **Officially Supported:**
 - **Chrome** - Full support with all features
@@ -60,17 +33,16 @@ Looking for a powerful AI web agent without the $200/month price tag of OpenAI O
 **Not Supported:**
 - Firefox, Safari, and other Chromium variants (Opera, Arc, etc.)
 
-> **Note**: While Nanobrowser may function on other Chromium-based browsers, we recommend using Chrome or Edge for the best experience and guaranteed compatibility.
+**Note**: While MexBot may function on other Chromium-based browsers, we recommend using Chrome or Edge for the best experience and guaranteed compatibility.
 
-
-## 🚀 Quick Start
+## Quick Start
 
 1. **Install from Chrome Web Store** (Stable Version):
-   * Visit the [MexBot Chrome Web Store page](https://chromewebstore.google.com/detail/mexbot/imbddededgmcgfhfpcjmijokokekbkal)
+   * Visit the MexBot Chrome Web Store page
    * Click "Add to Chrome" button
    * Confirm the installation when prompted
 
-> **Important Note**: For latest features, install from ["Manually Install Latest Version"](#-manually-install-latest-version) below, as Chrome Web Store version may be delayed due to review process.
+**Important Note**: For latest features, install from "Manually Install Latest Version" below, as Chrome Web Store version may be delayed due to review process.
 
 2. **Configure Agent Models**:
    * Click the MexBot icon in your toolbar to open the sidebar
@@ -78,12 +50,12 @@ Looking for a powerful AI web agent without the $200/month price tag of OpenAI O
    * Add your LLM API keys
    * Choose which model to use for different agents (Navigator, Planner, Validator)
 
-## 🔧 Manually Install Latest Version
+## Manually Install Latest Version
 
 To get the most recent version with all the latest features:
 
 1. **Download**
-    * Download the latest `mexbot.zip` file from the official Github [release page](https://github.com/pacmex_admin/MexBot/releases).
+    * Download the latest `mexbot.zip` file from the official Github release page.
 
 2. **Install**:
     * Unzip `mexbot.zip`.
@@ -103,9 +75,9 @@ To get the most recent version with all the latest features:
     * Unzip and replace your existing MexBot files with the new ones.
     * Go to `chrome://extensions/` in Chrome and click the refresh icon on the MexBot card.
 
-## 🛠️ Build from Source
+## Build from Source
 
-If you prefer to build Nanobrowser yourself, follow these steps:
+If you prefer to build MexBot yourself, follow these steps:
 
 1. **Prerequisites**:
    * [Node.js](https://nodejs.org/) (v22.12.0 or higher)
@@ -128,57 +100,35 @@ If you prefer to build Nanobrowser yourself, follow these steps:
    ```
 
 5. **Load the Extension**:
-   * The built extension will be in the `dist` directory
-   * Follow the installation steps from the Manually Install section to load the extension into your browser
+   * Open `chrome://extensions/` in Chrome
+   * Enable `Developer mode` (top right)
+   * Click `Load unpacked` (top left)
+   * Select the `dist` folder from the project root
 
-6. **Development Mode** (optional):
-   ```bash
-   pnpm dev
-   ```
+## Model Selection
 
-## 🤖 Choosing Your Models
+MexBot allows you to configure different LLM models for each agent, balancing performance and cost. Here are recommended configurations:
 
-Nanobrowser allows you to configure different LLM models for each agent to balance performance and cost. Here are recommended configurations:
+### Higher Performance
+- **Navigator**: GPT-4, Claude-3.5-Sonnet, or Gemini Pro
+- **Planner**: GPT-4 or Claude-3.5-Sonnet
+- **Validator**: GPT-3.5-Turbo or Claude-3-Haiku
 
-### Better Performance
-- **Planner & Validator**: Claude 3.7 Sonnet
-  - Better reasoning and planning capabilities
-  - More reliable task validation
-- **Navigator**: Claude 3.5 Haiku
-  - Efficient for web navigation tasks
-  - Good balance of performance and cost
+### Cost-Effective
+- **Navigator**: GPT-3.5-Turbo or Claude-3-Haiku
+- **Planner**: GPT-3.5-Turbo or Claude-3-Haiku
+- **Validator**: GPT-3.5-Turbo or Claude-3-Haiku
 
-### Cost-Effective Configuration
-- **Planner & Validator**: Claude Haiku or GPT-4o
-  - Reasonable performance at lower cost
-  - May require more iterations for complex tasks
-- **Navigator**: Gemini 2.0 Flash or GPT-4o-mini
-  - Lightweight and cost-efficient
-  - Suitable for basic navigation tasks
+### Local Models (Ollama)
+- **Navigator**: Llama 3.1 8B, Mistral 7B, or CodeLlama 7B
+- **Planner**: Llama 3.1 8B or Mistral 7B
+- **Validator**: Llama 3.1 8B or Mistral 7B
 
-### Local Models
-- **Setup Options**:
-  - Use Ollama or other custom OpenAI-compatible providers to run models locally
-  - Zero API costs and complete privacy with no data leaving your machine
+**Note**: The cost-effective configuration may produce less stable outputs and require more iterations for complex tasks.
 
-- **Recommended Models**:
-  - **Qwen3 14B**
-  - **Falcon3 10B**
-  - **Qwen 2.5 Coder 14B**
-  - **Mistral Small 24B**
-  - We welcome community experience sharing with other local models in our [Discord](https://discord.gg/NN3ABHggMK)
+**Tip**: Feel free to experiment with your own model configurations! Found a great combination? Share it with the community to help others optimize their setup.
 
-- **Prompt Engineering**:
-  - Local models require more specific and cleaner prompts
-  - Avoid high-level, ambiguous commands
-  - Break complex tasks into clear, detailed steps
-  - Provide explicit context and constraints
-
-> **Note**: The cost-effective configuration may produce less stable outputs and require more iterations for complex tasks.
-
-> **Tip**: Feel free to experiment with your own model configurations! Found a great combination? Share it with the community in our [Discord](https://discord.gg/NN3ABHggMK) to help others optimize their setup.
-
-## 💡 See It In Action
+## See It In Action
 
 Here are some powerful tasks you can accomplish with just a sentence:
 
@@ -191,67 +141,65 @@ Here are some powerful tasks you can accomplish with just a sentence:
 3. **Shopping Research**:
    > "Find a portable Bluetooth speaker on Amazon with a water-resistant design, under $50. It should have a minimum battery life of 10 hours"
 
-## 🛠️ Roadmap
+## Roadmap
 
 We're actively developing MexBot with exciting features on the horizon, welcome to join us! 
 
-Check out our detailed roadmap and upcoming features in our [GitHub Discussions](https://github.com/pacmex_admin/MexBot/discussions/85). 
+Check out our detailed roadmap and upcoming features in our GitHub Discussions.
 
-## 🤝 Contributing
+## Contributing
 
 **We need your help to make MexBot even better!**  Contributions of all kinds are welcome:
 
 *  **Share Prompts & Use Cases** 
-   * Join our [Discord server](https://discord.gg/NN3ABHggMK).
+   * Join our Discord server.
    * share how you're using MexBot.  Help us build a library of useful prompts and real-world use cases.
 *  **Provide Feedback** 
-   * Try MexBot and give us feedback on its performance or suggest improvements in our [Discord server](https://discord.gg/NN3ABHggMK).
+   * Try MexBot and give us feedback on its performance or suggest improvements in our Discord server.
 * **Contribute Code**
-   * Check out our [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute code to the project.
+   * Check out our CONTRIBUTING.md for guidelines on how to contribute code to the project.
    * Submit pull requests for bug fixes, features, or documentation improvements.
-
 
 We believe in the power of open source and community collaboration.  Join us in building the future of web automation!
 
-
-## 🔒 Security
+## Security
 
 If you discover a security vulnerability, please **DO NOT** disclose it publicly through issues, pull requests, or discussions.
 
-Instead, please create a [GitHub Security Advisory](https://github.com/pacmex_admin/MexBot/security/advisories/new) to report the vulnerability responsibly. This allows us to address the issue before it's publicly disclosed.
+Instead, please create a GitHub Security Advisory to report the vulnerability responsibly. This allows us to address the issue before it's publicly disclosed.
 
 We appreciate your help in keeping MexBot and its users safe!
 
-## 💬 Community
+## Community
 
 Join our growing community of developers and users:
 
-- [Discord](https://discord.gg/NN3ABHggMK) - Chat with team and community
-- [Twitter](https://x.com/mexbot_ai) - Follow for updates and announcements
-- [GitHub Discussions](https://github.com/pacmex_admin/MexBot/discussions) - Share ideas and ask questions
+- Discord - Chat with team and community
+- Twitter - Follow for updates and announcements
+- GitHub Discussions - Share ideas and ask questions
 
-## 👏 Acknowledgments
+## Acknowledgments
 
 MexBot builds on top of other awesome open-source projects:
 
-- [Browser Use](https://github.com/browser-use/browser-use)
-- [Puppeteer](https://github.com/EmergenceAI/Agent-E)
-- [Chrome Extension Boilerplate](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite)
-- [LangChain](https://github.com/langchain-ai/langchainjs)
+- Browser Use
+- Puppeteer
+- Chrome Extension Boilerplate
+- LangChain
 
 Huge thanks to their creators and contributors!
 
-## 📄 License
+## License
 
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache License 2.0 - see the LICENSE file for details.
 
 Made with ❤️ by the MexBot Team. 
 
 **Made by Patfer Coding Company, Patrick Blanks (c) 2025 Patrick Blanks**
 
-Like MexBot? Give us a star 🌟 and join us in [Discord](https://discord.gg/NN3ABHggMK) | [X](https://x.com/mexbot_ai)
+Like MexBot? Give us a star 🌟 and join us in Discord | Twitter
 
-## ⚠️ DISCLAIMER ON DERIVATIVE PROJECTS
+## Disclaimer on Derivative Projects
 
 **We explicitly *DO NOT* endorse, support, or participate in any** projects involving cryptocurrencies, tokens, NFTs, or other blockchain-related applications **based on this codebase.**
 
