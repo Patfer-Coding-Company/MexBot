@@ -1,0 +1,9 @@
+{
+  "name": "@extension/tailwindcss-config",
+  "version": "0.1.8",
+  "description": "chrome extension - tailwindcss configuration - Made by Patfer Coding Company, Patrick Blanks (c) 2025 Patrick Blanks",
+  "author": "Patrick Blanks",
+  "copyright": "Made by Patfer Coding Company, Patrick Blanks (c) 2025 Patrick Blanks",
+  "main": "tailwind.config.ts",
+  "private": true
+}
