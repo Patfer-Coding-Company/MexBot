@@ -1,6 +1,6 @@
 # MexBot
 
-MexBot is an open-source AI web automation tool that runs in your browser. A free alternative to OpenAI Operator with flexible LLM options and multi-agent system.
+MexBot is a proprietary AI web automation tool that runs in your browser. A secure alternative to OpenAI Operator with flexible LLM options and multi-agent system.
 
 **Made by Patfer Coding Company, Patrick Blanks (c) 2025 Patrick Blanks**
 
@@ -8,10 +8,10 @@ MexBot is an open-source AI web automation tool that runs in your browser. A fre
 
 Looking for a powerful AI web agent without the $200/month price tag of OpenAI Operator? **MexBot**, as a chrome extension, delivers premium web automation capabilities while keeping you in complete control:
 
-- **100% Free** - No subscription fees or hidden costs. Just install and use your own API keys, and you only pay what you use with your own API keys.
+- **100% Secure** - Proprietary codebase with enterprise-grade security. Your data and credentials stay protected.
 - **Privacy-Focused** - Everything runs in your local browser. Your credentials stay with you, never shared with any cloud service.
 - **Flexible LLM Options** - Connect to your preferred LLM providers with the freedom to choose different models for different agents.
-- **Fully Open Source** - Complete transparency in how your browser is automated. No black boxes or hidden processes.
+- **Proprietary Technology** - Advanced automation technology with complete control over your web workflows.
 
 **Note:** We currently support OpenAI, Anthropic, Gemini, Ollama, Groq, Cerebras, Llama and custom OpenAI-Compatible providers, more providers will be supported.
 
@@ -23,6 +23,7 @@ Looking for a powerful AI web agent without the $200/month price tag of OpenAI O
 - **Follow-up Questions**: Ask contextual follow-up questions about completed tasks
 - **Conversation History**: Easily access and manage your AI agent interaction history
 - **Multiple LLM Support**: Connect your preferred LLM providers and assign different models to different agents
+- **Enterprise Security**: Proprietary codebase with advanced security measures
 
 ## Browser Support
 
@@ -55,7 +56,7 @@ Looking for a powerful AI web agent without the $200/month price tag of OpenAI O
 To get the most recent version with all the latest features:
 
 1. **Download**
-    * Download the latest `mexbot.zip` file from the official Github release page.
+    * Download the latest `mexbot.zip` file from the official distribution page.
 
 2. **Install**:
     * Unzip `mexbot.zip`.
@@ -71,39 +72,9 @@ To get the most recent version with all the latest features:
     * Choose which model to use for different agents (Navigator, Planner, Validator)
 
 4. **Upgrading**:
-    * Download the latest `mexbot.zip` file from the release page.
+    * Download the latest `mexbot.zip` file from the distribution page.
     * Unzip and replace your existing MexBot files with the new ones.
     * Go to `chrome://extensions/` in Chrome and click the refresh icon on the MexBot card.
-
-## Build from Source
-
-If you prefer to build MexBot yourself, follow these steps:
-
-1. **Prerequisites**:
-   * [Node.js](https://nodejs.org/) (v22.12.0 or higher)
-   * [pnpm](https://pnpm.io/installation) (v9.15.1 or higher)
-
-2. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/pacmex_admin/MexBot.git
-   cd MexBot
-   ```
-
-3. **Install Dependencies**:
-   ```bash
-   pnpm install
-   ```
-
-4. **Build the Extension**:
-   ```bash
-   pnpm build
-   ```
-
-5. **Load the Extension**:
-   * Open `chrome://extensions/` in Chrome
-   * Enable `Developer mode` (top right)
-   * Click `Load unpacked` (top left)
-   * Select the `dist` folder from the project root
 
 ## Model Selection
 
@@ -145,30 +116,31 @@ Here are some powerful tasks you can accomplish with just a sentence:
 
 We're actively developing MexBot with exciting features on the horizon, welcome to join us! 
 
-Check out our detailed roadmap and upcoming features in our GitHub Discussions.
+Check out our detailed roadmap and upcoming features in our community discussions.
 
-## Contributing
+## Support
 
-**We need your help to make MexBot even better!**  Contributions of all kinds are welcome:
+**We're here to help you get the most out of MexBot!**  We offer various support options:
 
-*  **Share Prompts & Use Cases** 
-   * Join our Discord server.
-   * share how you're using MexBot.  Help us build a library of useful prompts and real-world use cases.
-*  **Provide Feedback** 
-   * Try MexBot and give us feedback on its performance or suggest improvements in our Discord server.
-* **Contribute Code**
-   * Check out our CONTRIBUTING.md for guidelines on how to contribute code to the project.
-   * Submit pull requests for bug fixes, features, or documentation improvements.
+*  **Documentation & Guides** 
+   * Comprehensive documentation and setup guides
+   * Best practices for web automation workflows
+*  **Technical Support** 
+   * Get help with configuration and troubleshooting
+   * Expert assistance for complex automation scenarios
+* **Enterprise Support**
+   * Dedicated support for enterprise deployments
+   * Custom integration assistance
 
-We believe in the power of open source and community collaboration.  Join us in building the future of web automation!
+We believe in providing exceptional support to ensure your success with MexBot.
 
 ## Security
 
-If you discover a security vulnerability, please **DO NOT** disclose it publicly through issues, pull requests, or discussions.
+MexBot is built with enterprise-grade security in mind. If you discover a security vulnerability, please **DO NOT** disclose it publicly through issues, pull requests, or discussions.
 
-Instead, please create a GitHub Security Advisory to report the vulnerability responsibly. This allows us to address the issue before it's publicly disclosed.
+Instead, please contact our security team directly to report the vulnerability responsibly. This allows us to address the issue before it's publicly disclosed.
 
-We appreciate your help in keeping MexBot and its users safe!
+We appreciate your help in keeping MexBot and its users secure!
 
 ## Community
 
@@ -176,11 +148,11 @@ Join our growing community of developers and users:
 
 - Discord - Chat with team and community
 - Twitter - Follow for updates and announcements
-- GitHub Discussions - Share ideas and ask questions
+- Community Forums - Share ideas and ask questions
 
 ## Acknowledgments
 
-MexBot builds on top of other awesome open-source projects:
+MexBot builds on top of other awesome technologies and frameworks:
 
 - Browser Use
 - Puppeteer
@@ -191,7 +163,7 @@ Huge thanks to their creators and contributors!
 
 ## License
 
-This project is licensed under the Apache License 2.0 - see the LICENSE file for details.
+This project is proprietary software developed by Patfer Coding Company. All rights reserved.
 
 Made with ❤️ by the MexBot Team. 
 
@@ -209,5 +181,5 @@ Like MexBot? Give us a star 🌟 and join us in Discord | Twitter
 
 **We reserve the right to publicly distance ourselves from any misuse or misleading use of our name, codebase, or brand.**
 
-We encourage open-source innovation but urge our community to be discerning and cautious. Please ensure you understand the risks before using any software or service built upon our codebase by independent developers.
+We encourage innovation but urge our community to be discerning and cautious. Please ensure you understand the risks before using any software or service built upon our proprietary codebase by independent developers.
 

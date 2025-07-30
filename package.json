@@ -1,8 +1,8 @@
 {
   "name": "mexbot",
   "version": "0.1.8",
-  "description": "AI web automation tool - Made by Patfer Coding Company, Patrick Blanks (c) 2025 Patrick Blanks",
-  "license": "Apache-2.0",
+  "description": "Proprietary AI web automation tool - Made by Patfer Coding Company, Patrick Blanks (c) 2025 Patrick Blanks",
+  "license": "Proprietary",
   "author": "Patrick Blanks",
   "copyright": "Made by Patfer Coding Company, Patrick Blanks (c) 2025 Patrick Blanks",
   "repository": {
