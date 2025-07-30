@@ -9,6 +9,7 @@ import { RxDiscordLogo } from 'react-icons/rx';
 import { FiSettings } from 'react-icons/fi';
 import { PiPlusBold } from 'react-icons/pi';
 import { GrHistory } from 'react-icons/gr';
+import { BsSun, BsMoon } from 'react-icons/bs';
 import { type Message, Actors, chatHistoryStore, agentModelStore, generalSettingsStore } from '@extension/storage';
 import favoritesStorage, { type FavoritePrompt } from '@extension/storage/lib/prompt/favorites';
 import MessageList from './components/MessageList';
@@ -51,18 +52,111 @@ const SidePanel = () => {
   const audioChunksRef = useRef<Blob[]>([]);
   const recordingTimerRef = useRef<number | null>(null);
 
-  // Check for dark mode preference
+  // Check for dark mode preference and apply theme
   useEffect(() => {
     const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    setIsDarkMode(darkModeMediaQuery.matches);
+    const savedTheme = localStorage.getItem('mexbot-theme');
+
+    if (savedTheme) {
+      setIsDarkMode(savedTheme === 'dark');
+    } else {
+      setIsDarkMode(darkModeMediaQuery.matches);
+    }
 
     const handleChange = (e: MediaQueryListEvent) => {
-      setIsDarkMode(e.matches);
+      if (!localStorage.getItem('mexbot-theme')) {
+        setIsDarkMode(e.matches);
+      }
     };
 
     darkModeMediaQuery.addEventListener('change', handleChange);
     return () => darkModeMediaQuery.removeEventListener('change', handleChange);
   }, []);
+
+  // Apply theme to document
+  useEffect(() => {
+    const root = document.documentElement;
+    if (isDarkMode) {
+      root.classList.add('dark');
+      root.classList.remove('light');
+    } else {
+      root.classList.add('light');
+      root.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+
+  // Theme toggle handler
+  const handleThemeToggle = useCallback(() => {
+    const newTheme = !isDarkMode;
+    setIsDarkMode(newTheme);
+    localStorage.setItem('mexbot-theme', newTheme ? 'dark' : 'light');
+  }, [isDarkMode]);
+
+  // Keyboard shortcuts handler
+  const handleKeyboardShortcuts = useCallback(
+    (event: KeyboardEvent) => {
+      // Only handle shortcuts when not typing in input fields
+      const target = event.target as HTMLElement;
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.contentEditable === 'true') {
+        return;
+      }
+
+      // Ctrl/Cmd + Enter: Send message
+      if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+        event.preventDefault();
+        if (setInputTextRef.current) {
+          setInputTextRef.current(''); // This will trigger send
+        }
+      }
+
+      // Ctrl/Cmd + N: New chat
+      if ((event.ctrlKey || event.metaKey) && event.key === 'n') {
+        event.preventDefault();
+        handleNewChat();
+      }
+
+      // Ctrl/Cmd + H: Toggle history
+      if ((event.ctrlKey || event.metaKey) && event.key === 'h') {
+        event.preventDefault();
+        if (showHistory) {
+          handleBackToChat();
+        } else {
+          handleLoadHistory();
+        }
+      }
+
+      // Ctrl/Cmd + S: Settings
+      if ((event.ctrlKey || event.metaKey) && event.key === 's') {
+        event.preventDefault();
+        chrome.runtime.openOptionsPage();
+      }
+
+      // Ctrl/Cmd + T: Toggle theme
+      if ((event.ctrlKey || event.metaKey) && event.key === 't') {
+        event.preventDefault();
+        handleThemeToggle();
+      }
+
+      // Escape: Stop current task or go back
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        if (showStopButton) {
+          handleStopTask();
+        } else if (showHistory) {
+          handleBackToChat();
+        }
+      }
+    },
+    [isDarkMode, showHistory, showStopButton, handleNewChat, handleLoadHistory, handleStopTask],
+  );
+
+  // Add keyboard event listener
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyboardShortcuts);
+    return () => {
+      document.removeEventListener('keydown', handleKeyboardShortcuts);
+    };
+  }, [handleKeyboardShortcuts]);
 
   // Check if models are configured
   const checkModelConfiguration = useCallback(async () => {
@@ -1051,6 +1145,15 @@ const SidePanel = () => {
               className={`header-icon ${isDarkMode ? 'text-sky-400 hover:text-sky-300' : 'text-sky-400 hover:text-sky-500'}`}>
               <RxDiscordLogo size={20} />
             </a>
+            <button
+              type="button"
+              onClick={handleThemeToggle}
+              onKeyDown={e => e.key === 'Enter' && handleThemeToggle()}
+              className={`header-icon ${isDarkMode ? 'text-sky-400 hover:text-sky-300' : 'text-sky-400 hover:text-sky-500'} cursor-pointer`}
+              aria-label="Toggle Theme"
+              tabIndex={0}>
+              {isDarkMode ? <BsMoon size={20} /> : <BsSun size={20} />}
+            </button>
             <button
               type="button"
               onClick={() => chrome.runtime.openOptionsPage()}

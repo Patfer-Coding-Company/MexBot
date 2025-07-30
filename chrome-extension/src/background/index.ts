@@ -10,7 +10,7 @@ import {
   firewallStore,
   generalSettingsStore,
   llmProviderStore,
-} from '@extension/storage';
+} from '../../packages/storage';
 import BrowserContext from './browser/context';
 import { Executor } from './agent/executor';
 import { createLogger } from './log';
@@ -26,8 +26,25 @@ const browserContext = new BrowserContext({});
 let currentExecutor: Executor | null = null;
 let currentPort: chrome.runtime.Port | null = null;
 
-// Setup side panel behavior
-chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch(error => console.error(error));
+// Enhanced error handling wrapper
+function withErrorHandling<T extends any[], R>(
+  fn: (...args: T) => Promise<R>,
+  context: string,
+): (...args: T) => Promise<R> {
+  return async (...args: T): Promise<R> => {
+    try {
+      return await fn(...args);
+    } catch (error) {
+      logger.error(`Error in ${context}:`, error);
+      throw error;
+    }
+  };
+}
+
+// Setup side panel behavior with error handling
+chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch(error => {
+  logger.error('Failed to set side panel behavior:', error);
+});
 
 // Function to check if script is already injected
 async function isScriptInjected(tabId: number): Promise<boolean> {
@@ -38,18 +55,18 @@ async function isScriptInjected(tabId: number): Promise<boolean> {
     });
     return results[0]?.result || false;
   } catch (err) {
-    console.error('Failed to check script injection status:', err);
+    logger.error('Failed to check script injection status:', err);
     return false;
   }
 }
 
-// // Function to inject the buildDomTree script
+// Enhanced function to inject the buildDomTree script
 async function injectBuildDomTree(tabId: number) {
   try {
     // Check if already injected
     const alreadyInjected = await isScriptInjected(tabId);
     if (alreadyInjected) {
-      console.log('Scripts already injected, skipping...');
+      logger.info('Scripts already injected, skipping...');
       return;
     }
 
@@ -57,223 +74,248 @@ async function injectBuildDomTree(tabId: number) {
       target: { tabId },
       files: ['buildDomTree.js'],
     });
-    console.log('Scripts successfully injected');
+    logger.info('Scripts successfully injected');
   } catch (err) {
-    console.error('Failed to inject scripts:', err);
+    logger.error('Failed to inject scripts:', err);
+    // Don't throw here as this is not critical for basic functionality
   }
 }
 
+// Enhanced tab update listener
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-  if (tabId && changeInfo.status === 'complete' && tab.url?.startsWith('http')) {
-    await injectBuildDomTree(tabId);
-  }
-});
-
-// Listen for debugger detached event
-// if canceled_by_user, remove the tab from the browser context
-chrome.debugger.onDetach.addListener(async (source, reason) => {
-  console.log('Debugger detached:', source, reason);
-  if (reason === 'canceled_by_user') {
-    if (source.tabId) {
-      currentExecutor?.cancel();
-      await browserContext.cleanup();
+  try {
+    if (tabId && changeInfo.status === 'complete' && tab.url?.startsWith('http')) {
+      await injectBuildDomTree(tabId);
     }
+  } catch (error) {
+    logger.error('Error handling tab update:', error);
   }
 });
 
-// Cleanup when tab is closed
+// Enhanced debugger detached listener
+chrome.debugger.onDetach.addListener(async (source, reason) => {
+  try {
+    logger.info('Debugger detached:', source, reason);
+    if (reason === 'canceled_by_user') {
+      if (source.tabId) {
+        currentExecutor?.cancel();
+        await browserContext.cleanup();
+      }
+    }
+  } catch (error) {
+    logger.error('Error handling debugger detach:', error);
+  }
+});
+
+// Enhanced cleanup when tab is closed
 chrome.tabs.onRemoved.addListener(tabId => {
-  browserContext.removeAttachedPage(tabId);
+  try {
+    browserContext.removeAttachedPage(tabId);
+  } catch (error) {
+    logger.error('Error removing attached page:', error);
+  }
 });
 
 logger.info('background loaded');
 
-// Listen for simple messages (e.g., from options page)
-chrome.runtime.onMessage.addListener(() => {
-  // Handle other message types if needed in the future
-  // Return false if response is not sent asynchronously
-  // return false;
+// Enhanced message listener
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  try {
+    logger.info('Received message:', message);
+    // Handle other message types if needed in the future
+    // Return false if response is not sent asynchronously
+    return false;
+  } catch (error) {
+    logger.error('Error handling message:', error);
+    return false;
+  }
 });
 
-// Setup connection listener for long-lived connections (e.g., side panel)
+// Enhanced connection listener for long-lived connections (e.g., side panel)
 chrome.runtime.onConnect.addListener(port => {
-  if (port.name === 'side-panel-connection') {
-    currentPort = port;
+  try {
+    if (port.name === 'side-panel-connection') {
+      currentPort = port;
+      logger.info('Side panel connected');
 
-    port.onMessage.addListener(async message => {
-      try {
-        switch (message.type) {
-          case 'heartbeat':
-            // Acknowledge heartbeat
-            port.postMessage({ type: 'heartbeat_ack' });
-            break;
+      port.onMessage.addListener(async message => {
+        try {
+          switch (message.type) {
+            case 'heartbeat':
+              // Acknowledge heartbeat
+              port.postMessage({ type: 'heartbeat_ack' });
+              break;
 
-          case 'new_task': {
-            if (!message.task) return port.postMessage({ type: 'error', error: 'No task provided' });
-            if (!message.tabId) return port.postMessage({ type: 'error', error: 'No tab ID provided' });
+            case 'new_task': {
+              if (!message.task) return port.postMessage({ type: 'error', error: 'No task provided' });
+              if (!message.tabId) return port.postMessage({ type: 'error', error: 'No tab ID provided' });
 
-            logger.info('new_task', message.tabId, message.task);
-            currentExecutor = await setupExecutor(message.taskId, message.task, browserContext);
-            subscribeToExecutorEvents(currentExecutor);
-
-            const result = await currentExecutor.execute();
-            logger.info('new_task execution result', message.tabId, result);
-            break;
-          }
-          case 'follow_up_task': {
-            if (!message.task) return port.postMessage({ type: 'error', error: 'No follow up task provided' });
-            if (!message.tabId) return port.postMessage({ type: 'error', error: 'No tab ID provided' });
-
-            logger.info('follow_up_task', message.tabId, message.task);
-
-            // If executor exists, add follow-up task
-            if (currentExecutor) {
-              currentExecutor.addFollowUpTask(message.task);
-              // Re-subscribe to events in case the previous subscription was cleaned up
-              subscribeToExecutorEvents(currentExecutor);
-              const result = await currentExecutor.execute();
-              logger.info('follow_up_task execution result', message.tabId, result);
-            } else {
-              // executor was cleaned up, can not add follow-up task
-              logger.info('follow_up_task: executor was cleaned up, can not add follow-up task');
-              return port.postMessage({ type: 'error', error: 'Executor was cleaned up, can not add follow-up task' });
-            }
-            break;
-          }
-
-          case 'cancel_task': {
-            if (!currentExecutor) return port.postMessage({ type: 'error', error: 'No task to cancel' });
-            await currentExecutor.cancel();
-            break;
-          }
-
-          case 'resume_task': {
-            if (!currentExecutor) return port.postMessage({ type: 'error', error: 'No task to resume' });
-            await currentExecutor.resume();
-            return port.postMessage({ type: 'success' });
-          }
-
-          case 'pause_task': {
-            if (!currentExecutor) return port.postMessage({ type: 'error', error: 'No task to pause' });
-            await currentExecutor.pause();
-            return port.postMessage({ type: 'success' });
-          }
-
-          case 'screenshot': {
-            if (!message.tabId) return port.postMessage({ type: 'error', error: 'No tab ID provided' });
-            const page = await browserContext.switchTab(message.tabId);
-            const screenshot = await page.takeScreenshot();
-            logger.info('screenshot', message.tabId, screenshot);
-            return port.postMessage({ type: 'success', screenshot });
-          }
-
-          case 'state': {
-            try {
-              const browserState = await browserContext.getState(true);
-              const elementsText = browserState.elementTree.clickableElementsToString(
-                DEFAULT_AGENT_OPTIONS.includeAttributes,
-              );
-
-              logger.info('state', browserState);
-              logger.info('interactive elements', elementsText);
-              return port.postMessage({ type: 'success', msg: 'State printed to console' });
-            } catch (error) {
-              logger.error('Failed to get state:', error);
-              return port.postMessage({ type: 'error', error: 'Failed to get state' });
-            }
-          }
-
-          case 'nohighlight': {
-            const page = await browserContext.getCurrentPage();
-            await page.removeHighlight();
-            return port.postMessage({ type: 'success', msg: 'highlight removed' });
-          }
-
-          case 'speech_to_text': {
-            try {
-              if (!message.audio) {
-                return port.postMessage({
-                  type: 'speech_to_text_error',
-                  error: 'No audio data provided',
-                });
-              }
-
-              logger.info('Processing speech-to-text request...');
-
-              // Get all providers for speech-to-text service
-              const providers = await llmProviderStore.getAllProviders();
-
-              // Create speech-to-text service with all providers
-              const speechToTextService = await SpeechToTextService.create(providers);
-
-              // Extract base64 audio data (remove data URL prefix if present)
-              let base64Audio = message.audio;
-              if (base64Audio.startsWith('data:')) {
-                base64Audio = base64Audio.split(',')[1];
-              }
-
-              // Transcribe audio
-              const transcribedText = await speechToTextService.transcribeAudio(base64Audio);
-
-              logger.info('Speech-to-text completed successfully');
-              return port.postMessage({
-                type: 'speech_to_text_result',
-                text: transcribedText,
-              });
-            } catch (error) {
-              logger.error('Speech-to-text failed:', error);
-              return port.postMessage({
-                type: 'speech_to_text_error',
-                error: error instanceof Error ? error.message : 'Speech recognition failed',
-              });
-            }
-          }
-
-          case 'replay': {
-            if (!message.tabId) return port.postMessage({ type: 'error', error: 'No tab ID provided' });
-            if (!message.taskId) return port.postMessage({ type: 'error', error: 'No task ID provided' });
-            if (!message.historySessionId)
-              return port.postMessage({ type: 'error', error: 'No history session ID provided' });
-            logger.info('replay', message.tabId, message.taskId, message.historySessionId);
-
-            try {
-              // Switch to the specified tab
-              await browserContext.switchTab(message.tabId);
-              // Setup executor with the new taskId and a dummy task description
+              logger.info('new_task', message.tabId, message.task);
               currentExecutor = await setupExecutor(message.taskId, message.task, browserContext);
               subscribeToExecutorEvents(currentExecutor);
 
-              // Run replayHistory with the history session ID
-              const result = await currentExecutor.replayHistory(message.historySessionId);
-              logger.debug('replay execution result', message.tabId, result);
-            } catch (error) {
-              logger.error('Replay failed:', error);
-              return port.postMessage({
-                type: 'error',
-                error: error instanceof Error ? error.message : 'Replay failed',
-              });
+              const result = await currentExecutor.execute();
+              logger.info('new_task execution result', message.tabId, result);
             }
-            break;
+            case 'follow_up_task': {
+              if (!message.task) return port.postMessage({ type: 'error', error: 'No follow up task provided' });
+              if (!message.tabId) return port.postMessage({ type: 'error', error: 'No tab ID provided' });
+
+              logger.info('follow_up_task', message.tabId, message.task);
+
+              // If executor exists, add follow-up task
+              if (currentExecutor) {
+                currentExecutor.addFollowUpTask(message.task);
+                // Re-subscribe to events in case the previous subscription was cleaned up
+                subscribeToExecutorEvents(currentExecutor);
+                const result = await currentExecutor.execute();
+                logger.info('follow_up_task execution result', message.tabId, result);
+              } else {
+                // executor was cleaned up, can not add follow-up task
+                logger.info('follow_up_task: executor was cleaned up, can not add follow-up task');
+                return port.postMessage({
+                  type: 'error',
+                  error: 'Executor was cleaned up, can not add follow-up task',
+                });
+              }
+            }
+
+            case 'cancel_task': {
+              if (!currentExecutor) return port.postMessage({ type: 'error', error: 'No task to cancel' });
+              await currentExecutor.cancel();
+              break;
+            }
+
+            case 'resume_task': {
+              if (!currentExecutor) return port.postMessage({ type: 'error', error: 'No task to resume' });
+              await currentExecutor.resume();
+              return port.postMessage({ type: 'success' });
+            }
+
+            case 'pause_task': {
+              if (!currentExecutor) return port.postMessage({ type: 'error', error: 'No task to pause' });
+              await currentExecutor.pause();
+              return port.postMessage({ type: 'success' });
+            }
+
+            case 'screenshot': {
+              if (!message.tabId) return port.postMessage({ type: 'error', error: 'No tab ID provided' });
+              const page = await browserContext.switchTab(message.tabId);
+              const screenshot = await page.takeScreenshot();
+              logger.info('screenshot', message.tabId, screenshot);
+              return port.postMessage({ type: 'success', screenshot });
+            }
+
+            case 'state': {
+              try {
+                const browserState = await browserContext.getState(true);
+                const elementsText = browserState.elementTree.clickableElementsToString(
+                  DEFAULT_AGENT_OPTIONS.includeAttributes,
+                );
+
+                logger.info('state', browserState);
+                logger.info('interactive elements', elementsText);
+                return port.postMessage({ type: 'success', msg: 'State printed to console' });
+              } catch (error) {
+                logger.error('Failed to get state:', error);
+                return port.postMessage({ type: 'error', error: 'Failed to get state' });
+              }
+            }
+
+            case 'nohighlight': {
+              const page = await browserContext.getCurrentPage();
+              await page.removeHighlight();
+              return port.postMessage({ type: 'success', msg: 'highlight removed' });
+            }
+
+            case 'speech_to_text': {
+              try {
+                if (!message.audio) {
+                  return port.postMessage({
+                    type: 'speech_to_text_error',
+                    error: 'No audio data provided',
+                  });
+                }
+
+                logger.info('Processing speech-to-text request...');
+
+                // Get all providers for speech-to-text service
+                const providers = await llmProviderStore.getAllProviders();
+
+                // Create speech-to-text service with all providers
+                const speechToTextService = await SpeechToTextService.create(providers);
+
+                // Extract base64 audio data (remove data URL prefix if present)
+                let base64Audio = message.audio;
+                if (base64Audio.startsWith('data:')) {
+                  base64Audio = base64Audio.split(',')[1];
+                }
+
+                // Transcribe audio
+                const transcribedText = await speechToTextService.transcribeAudio(base64Audio);
+
+                logger.info('Speech-to-text completed successfully');
+                return port.postMessage({
+                  type: 'speech_to_text_result',
+                  text: transcribedText,
+                });
+              } catch (error) {
+                logger.error('Speech-to-text failed:', error);
+                return port.postMessage({
+                  type: 'speech_to_text_error',
+                  error: error instanceof Error ? error.message : 'Speech recognition failed',
+                });
+              }
+            }
+
+            case 'replay': {
+              if (!message.tabId) return port.postMessage({ type: 'error', error: 'No tab ID provided' });
+              if (!message.taskId) return port.postMessage({ type: 'error', error: 'No task ID provided' });
+              if (!message.historySessionId)
+                return port.postMessage({ type: 'error', error: 'No history session ID provided' });
+              logger.info('replay', message.tabId, message.taskId, message.historySessionId);
+
+              try {
+                // Switch to the specified tab
+                await browserContext.switchTab(message.tabId);
+                // Setup executor with the new taskId and a dummy task description
+                currentExecutor = await setupExecutor(message.taskId, message.task, browserContext);
+                subscribeToExecutorEvents(currentExecutor);
+
+                // Run replayHistory with the history session ID
+                const result = await currentExecutor.replayHistory(message.historySessionId);
+                logger.debug('replay execution result', message.tabId, result);
+              } catch (error) {
+                logger.error('Replay failed:', error);
+                return port.postMessage({
+                  type: 'error',
+                  error: error instanceof Error ? error.message : 'Replay failed',
+                });
+              }
+              break;
+            }
+
+            default:
+              return port.postMessage({ type: 'error', error: 'Unknown message type' });
           }
-
-          default:
-            return port.postMessage({ type: 'error', error: 'Unknown message type' });
+        } catch (error) {
+          logger.error('Error handling port message:', error);
+          port.postMessage({
+            type: 'error',
+            error: error instanceof Error ? error.message : 'Unknown error',
+          });
         }
-      } catch (error) {
-        console.error('Error handling port message:', error);
-        port.postMessage({
-          type: 'error',
-          error: error instanceof Error ? error.message : 'Unknown error',
-        });
-      }
-    });
+      });
 
-    port.onDisconnect.addListener(() => {
-      // this event is also triggered when the side panel is closed, so we need to cancel the task
-      console.log('Side panel disconnected');
-      currentPort = null;
-      currentExecutor?.cancel();
-    });
+      port.onDisconnect.addListener(() => {
+        // this event is also triggered when the side panel is closed, so we need to cancel the task
+        logger.info('Side panel disconnected');
+        currentPort = null;
+        currentExecutor?.cancel();
+      });
+    }
+  } catch (error) {
+    logger.error('Error handling port connection:', error);
   }
 });
 
