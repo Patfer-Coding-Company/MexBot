@@ -480,8 +480,8 @@ export class DOMElementNode extends DOMBaseNode {
           // Use contains for values with special characters
           // Regex-substitute any whitespace with a single space, then trim
           const collapsedValue = value.replace(/\s+/g, ' ').trim();
-          // Escape embedded double-quotes
-          const safeValue = collapsedValue.replace(/"/g, '\\"');
+          // Escape embedded backslashes and double-quotes
+          const safeValue = collapsedValue.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
           cssSelector += `[${safeAttribute}*="${safeValue}"]`;
         } else {
           cssSelector += `[${safeAttribute}="${value}"]`;
