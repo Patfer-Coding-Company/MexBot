@@ -1,104 +1,61 @@
 /**
  * Made by Patfer Coding Company, Patrick Blanks (c) 2025 Patrick Blanks
- * Chrome Extension Manifest Configuration
+ * Chrome Extension Manifest
  */
 
-import fs from 'node:fs';
-import deepmerge from 'deepmerge';
+import { defineManifest } from '@crxjs/vite-plugin';
+import { version } from './package.json';
 
-const packageJson = JSON.parse(fs.readFileSync('../package.json', 'utf8'));
-
-const isFirefox = process.env.__FIREFOX__ === 'true';
-const isOpera = process.env.__OPERA__ === 'true';
-
-/**
- * If you want to disable the sidePanel, you can delete withSidePanel function and remove the sidePanel HoC on the manifest declaration.
- *
- * ```js
- * const manifest = { // remove `withSidePanel()`
- * ```
- */
-function withSidePanel(manifest) {
-  // Firefox does not support sidePanel
-  if (isFirefox) {
-    return manifest;
-  }
-  return deepmerge(manifest, {
-    side_panel: {
-      default_path: 'side-panel/index.html',
+export default defineManifest({
+  manifest_version: 3,
+  name: 'MexBot: AI Web Agent & Automation - Made by Patfer Coding Company',
+  description:
+    'Automate web tasks with AI! MexBot is a proprietary Chrome extension that lets you extract data, fill forms, and more. Made by Patfer Coding Company, Patrick Blanks (c) 2025 Patrick Blanks',
+  version,
+  author: 'Patrick Blanks',
+  copyright: 'Made by Patfer Coding Company, Patrick Blanks (c) 2025 Patrick Blanks',
+  permissions: ['activeTab', 'scripting', 'storage', 'debugger', 'sidePanel', 'tabs'],
+  host_permissions: ['http://*/*', 'https://*/*'],
+  background: {
+    service_worker: 'src/background/index.ts',
+  },
+  content_scripts: [
+    {
+      matches: ['<all_urls>'],
+      js: ['src/content/index.ts'],
     },
-    permissions: ['sidePanel'],
-  });
-}
-
-/**
- * Adds Opera sidebar support using the sidebar_action API.
- * This is compatible with Chrome extensions and won't break Chrome Web Store validation.
- */
-function withOperaSidebar(manifest) {
-  // Only add Opera sidebar_action if building specifically for Opera
-  if (isFirefox || !isOpera) {
-    return manifest;
-  }
-
-  return deepmerge(manifest, {
-    sidebar_action: {
-      default_panel: 'side-panel/index.html',
-      default_title: 'MexBot',
-      default_icon: 'icon-32.png',
+  ],
+  side_panel: {
+    default_path: 'side-panel/index.html',
+  },
+  options_page: 'options/index.html',
+  web_accessible_resources: [
+    {
+      resources: ['buildDomTree.js', 'pricing/index.html'],
+      matches: ['<all_urls>'],
     },
-  });
-}
-
-/**
- * After changing, please reload the extension at `chrome://extensions`
- * @type {chrome.runtime.ManifestV3}
- */
-const manifest = withOperaSidebar(
-  withSidePanel({
-    manifest_version: 3,
-    default_locale: 'en',
-    /**
-     * if you want to support multiple languages, you can use the following reference
-     * https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Internationalization
-     */
-    name: '__MSG_extensionName__',
-    version: packageJson.version,
-    description: '__MSG_extensionDescription__',
-    host_permissions: ['<all_urls>'],
-    permissions: ['storage', 'scripting', 'tabs', 'activeTab', 'debugger', 'unlimitedStorage'],
-    options_page: 'options/index.html',
-    background: {
-      service_worker: 'background.iife.js',
-      type: 'module',
-    },
-    action: {
-      default_icon: 'icon-32.png',
-    },
-    icons: {
+  ],
+  action: {
+    default_title: 'MexBot',
+    default_icon: {
+      16: 'icon-16.png',
+      32: 'icon-32.png',
+      48: 'icon-48.png',
       128: 'icon-128.png',
     },
-    content_scripts: [
-      {
-        matches: ['http://*/*', 'https://*/*', '<all_urls>'],
-        js: ['content/index.iife.js'],
-      },
-    ],
-    web_accessible_resources: [
-      {
-        resources: [
-          '*.js',
-          '*.css',
-          '*.svg',
-          'icon-128.png',
-          'icon-32.png',
-          'permission/index.html',
-          'permission/permission.js',
-        ],
-        matches: ['*://*/*'],
-      },
-    ],
-  }),
-);
-
-export default manifest;
+  },
+  icons: {
+    16: 'icon-16.png',
+    32: 'icon-32.png',
+    48: 'icon-48.png',
+    128: 'icon-128.png',
+  },
+  sidebar_action: {
+    default_panel: 'side-panel/index.html',
+    default_title: 'MexBot',
+    default_icon: 'icon-32.png',
+  },
+  chrome_url_overrides: {
+    newtab: 'newtab/index.html',
+  },
+});

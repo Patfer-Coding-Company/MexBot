@@ -1,0 +1,26 @@
+{
+  "name": "pricing",
+  "version": "1.0.0-beta",
+  "description": "MexBot pricing page - Made by Patfer Coding Company, Patrick Blanks (c) 2025 Patrick Blanks",
+  "author": "Patrick Blanks",
+  "copyright": "Made by Patfer Coding Company, Patrick Blanks (c) 2025 Patrick Blanks",
+  "license": "Proprietary",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.8"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.263",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.6.3",
+    "vite": "^5.3.4"
+  }
+}

@@ -4,6 +4,18 @@ MexBot is a proprietary AI web automation tool that runs in your browser. A secu
 
 **Made by Patfer Coding Company, Patrick Blanks (c) 2025 Patrick Blanks**
 
+## 🎉 Start Your Free 7-Day Trial
+
+Experience the full power of MexBot with our **free 7-day trial** - no credit card required!
+
+- ✅ **Unlimited web automation**
+- ✅ **Access to all AI models**
+- ✅ **Priority support**
+- ✅ **Advanced features**
+- ✅ **No usage limits**
+
+[Start Free Trial](#installation-guide) | [View Pricing](#pricing)
+
 ## Why MexBot?
 
 Looking for a powerful AI web agent without the $200/month price tag of OpenAI Operator? **MexBot**, as a chrome extension, delivers premium web automation capabilities while keeping you in complete control:
@@ -14,6 +26,32 @@ Looking for a powerful AI web agent without the $200/month price tag of OpenAI O
 - **Proprietary Technology** - Advanced automation technology with complete control over your web workflows.
 
 **Note:** We currently support OpenAI, Anthropic, Gemini, Ollama, Groq, Cerebras, Llama and custom OpenAI-Compatible providers, more providers will be supported.
+
+## Pricing
+
+### Free Trial
+- **7 days** of full access
+- **No credit card required**
+- **All premium features included**
+- **Cancel anytime**
+
+### Monthly Plan - $19.99/month
+- Unlimited web automation
+- All AI models supported
+- Priority support
+- Advanced features
+- Regular updates
+- No usage limits
+
+### Yearly Plan - $199.99/year (Save 17%)
+- Everything in Monthly
+- **2 months free**
+- Early access to features
+- Premium support
+- Custom integrations
+- API access
+
+[View Full Pricing Details](#pricing)
 
 ## Key Features
 
@@ -45,9 +83,13 @@ Looking for a powerful AI web agent without the $200/month price tag of OpenAI O
    * Click "Add to Chrome" button
    * Confirm the installation when prompted
 
-2. **First-Time Setup**
+2. **Start Your Free Trial**
    * Click the MexBot icon in your browser toolbar
    * The side panel will open automatically
+   * Click "Start Free Trial" to begin your 7-day trial
+   * No credit card required!
+
+3. **Configure Your Setup**
    * Click the Settings icon (gear icon) in the top-right corner
    * Add your API keys for your preferred LLM providers
    * Configure which models to use for each agent (Navigator, Planner, Validator)
@@ -67,10 +109,10 @@ Looking for a powerful AI web agent without the $200/month price tag of OpenAI O
    * Select the folder where you extracted the ZIP file
    * The extension should now appear in your extensions list
 
-4. **Configure the Extension**
+4. **Start Your Trial**
    * Click the MexBot icon in your toolbar
-   * Open Settings and add your API keys
-   * Choose your preferred models for each agent
+   * Click "Start Free Trial" to begin your 7-day trial
+   * Configure your API keys in Settings
 
 ### Method 3: Build from Source (For developers)
 
@@ -91,6 +133,10 @@ Looking for a powerful AI web agent without the $200/month price tag of OpenAI O
    * Enable Developer mode
    * Click "Load unpacked"
    * Select the `dist` folder from the project
+
+4. **Start Your Trial**
+   * Click the MexBot icon in your toolbar
+   * Click "Start Free Trial" to begin your 7-day trial
 
 ## Configuration
 
@@ -127,6 +173,26 @@ Looking for a powerful AI web agent without the $200/month price tag of OpenAI O
 - **Navigator**: Llama 3.1 8B, Mistral 7B, or CodeLlama 7B
 - **Planner**: Llama 3.1 8B or Mistral 7B
 - **Validator**: Llama 3.1 8B or Mistral 7B
+
+## Trial & Subscription Management
+
+### Starting Your Trial
+- Click "Start Free Trial" in the side panel
+- No credit card required
+- Full access to all features for 7 days
+- Cancel anytime
+
+### Upgrading to Premium
+- Click "Upgrade Now" in the trial banner
+- Choose your plan (Monthly or Yearly)
+- Complete secure payment via Stripe
+- Instant access to premium features
+
+### Managing Your Subscription
+- Access billing information in Settings
+- Cancel anytime - no penalties
+- Your access continues until the end of your billing period
+- Contact support for any billing questions
 
 ## Troubleshooting
 
@@ -207,6 +273,14 @@ Looking for a powerful AI web agent without the $200/month price tag of OpenAI O
   * Check browser storage permissions
   * Clear and reload the extension
 
+#### Trial/Subscription Issues
+- **Issue**: Trial not starting or subscription problems
+- **Solution**:
+  * Check if you're logged into the correct account
+  * Clear browser cache and cookies
+  * Try refreshing the extension
+  * Contact support for billing issues
+
 ### Advanced Troubleshooting
 
 #### Check Browser Console
@@ -253,6 +327,8 @@ If you're still experiencing issues:
 - **ERR_PERMISSION**: Extension doesn't have required permissions
 - **ERR_MODEL_NOT_FOUND**: Selected model is not available
 - **ERR_TIMEOUT**: Request timed out, try again
+- **ERR_TRIAL_EXPIRED**: Your trial has expired, upgrade to continue
+- **ERR_SUBSCRIPTION_REQUIRED**: Premium subscription required for this feature
 
 ## Usage Examples
 
