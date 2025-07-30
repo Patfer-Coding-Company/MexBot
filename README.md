@@ -211,4 +211,3 @@ Like MexBot? Give us a star 🌟 and join us in Discord | Twitter
 
 We encourage open-source innovation but urge our community to be discerning and cautious. Please ensure you understand the risks before using any software or service built upon our codebase by independent developers.
 
-
